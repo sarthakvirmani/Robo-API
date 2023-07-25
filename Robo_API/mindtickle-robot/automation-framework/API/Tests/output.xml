@@ -1,0 +1,1303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.0.2 (Python 3.8.0 on win32)" generated="20230725 17:45:05.105" rpa="false" schemaversion="3">
+<suite id="s1" name="PetCrud" source="C:\Automation Branches\Robo_API\mindtickle-robot\automation-framework\API\Tests\PetCrud.robot">
+<test id="s1-t1" name="Create Pet Record And Validate Response" line="10">
+<kw name="Generate Random Number" library="CommonKeywords">
+<var>${randomPetId}</var>
+<kw name="Evaluate" library="BuiltIn">
+<var>${randomNumber}</var>
+<arg>random.sample(range(0, 100000), 1)</arg>
+<arg>random</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20230725 17:45:05.346" level="INFO">${randomNumber} = [1059]</msg>
+<status status="PASS" starttime="20230725 17:45:05.346" endtime="20230725 17:45:05.346"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${randomNumber}</var>
+<arg>${randomNumber[0]}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230725 17:45:05.346" level="INFO">${randomNumber} = 1059</msg>
+<status status="PASS" starttime="20230725 17:45:05.346" endtime="20230725 17:45:05.346"/>
+</kw>
+<msg timestamp="20230725 17:45:05.346" level="INFO">${randomPetId} = 1059</msg>
+<status status="PASS" starttime="20230725 17:45:05.346" endtime="20230725 17:45:05.346"/>
+</kw>
+<kw name="Catenate" library="BuiltIn">
+<var>${randomPetName}</var>
+<arg>${petName}${randomPetId}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20230725 17:45:05.346" level="INFO">${randomPetName} = MyPet1059</msg>
+<status status="PASS" starttime="20230725 17:45:05.346" endtime="20230725 17:45:05.346"/>
+</kw>
+<kw name="Create Pet And Return Id" library="Pets">
+<var>${petId}</var>
+<arg>${randomPetId}</arg>
+<arg>${randomPetName}</arg>
+<kw name="Get File Contents For Create Pet Request" library="Pets">
+<var>${requestBody}</var>
+<arg>${createPetFile}</arg>
+<arg>${petId}</arg>
+<arg>${petName}</arg>
+<kw name="Get File" library="OperatingSystem">
+<var>${requestBody}</var>
+<arg>${createPetFile}</arg>
+<doc>Returns the contents of a specified file.</doc>
+<msg timestamp="20230725 17:45:05.346" level="INFO" html="true">Getting file '&lt;a href="file://C:\Automation Branches\Robo_API\mindtickle-robot\automation-framework\API\Input\CreatePet.json"&gt;C:\Automation Branches\Robo_API\mindtickle-robot\automation-framework\API\Input\CreatePet.json&lt;/a&gt;'.</msg>
+<msg timestamp="20230725 17:45:05.346" level="INFO">${requestBody} = {
+  "id": 0,
+  "category": {
+    "id": 0,
+    "name": "string"
+  },
+  "name": "doggie",
+  "photoUrls": [
+  ],
+  "tags": [
+    {
+      "id": 0,
+      "name": "string"
+    }
+  ],
+  "status": "available"...</msg>
+<status status="PASS" starttime="20230725 17:45:05.346" endtime="20230725 17:45:05.346"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${requestBody}</var>
+<arg>json.loads('''${requestBody}''')</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20230725 17:45:05.362" level="INFO">${requestBody} = {'id': 0, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': [], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:05.346" endtime="20230725 17:45:05.362"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody}</arg>
+<arg>id=${petId}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:05.362"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody}</arg>
+<arg>name=${petName}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:05.362"/>
+</kw>
+<msg timestamp="20230725 17:45:05.362" level="INFO">${requestBody} = {'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'MyPet1059', 'photoUrls': [], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:05.346" endtime="20230725 17:45:05.362"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Post Request Body To Create Pet:${requestBody}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:05.362" level="INFO">Post Request Body To Create Pet:{'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'MyPet1059', 'photoUrls': [], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:05.362"/>
+</kw>
+<kw name="Create Pet Response" library="Pets">
+<var>${resp}</var>
+<arg>${requestBody}</arg>
+<arg>${expected_status_code}</arg>
+<kw name="Get Hostname" library="Data">
+<var>${host_name}</var>
+<kw name="Get Config Pod Values" library="Data">
+<kw name="Read Data From Excel File" library="CommonUtilities">
+<var>${data}</var>
+<arg>${path}</arg>
+<arg>${environment}</arg>
+<msg timestamp="20230725 17:45:05.362" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:05.362"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${data}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20230725 17:45:05.362" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:05.362"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:05.362"/>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${data}</arg>
+<arg>hostname</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20230725 17:45:05.362" level="INFO">${value} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:05.362"/>
+</kw>
+<msg timestamp="20230725 17:45:05.362" level="INFO">${host_name} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:05.362"/>
+</kw>
+<kw name="Get Header Dictionary" library="CommonKeywords">
+<var>${headers}</var>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230725 17:45:05.362" level="INFO">${headers} = {}</msg>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:05.362"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${headers}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:05.362"/>
+</kw>
+<msg timestamp="20230725 17:45:05.362" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:05.362"/>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>alias=MTapi</arg>
+<arg>url=${host_name}</arg>
+<arg>headers=${headers}</arg>
+<arg>disable_warnings=1</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20230725 17:45:05.362" level="INFO">Creating Session using : alias=MTapi, url=https://petstore.swagger.io, headers={'Content-Type': 'application/json'},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:05.362"/>
+</kw>
+<kw name="Post On Session" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>MTapi</arg>
+<arg>${create_pet_url}</arg>
+<arg>json=${requestBody}</arg>
+<arg>expected_status=${expected_status_code}</arg>
+<arg>msg="Status code is not equal to 200 (SUCCESS)"</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20230725 17:45:06.369" level="INFO">POST Request : url=https://petstore.swagger.io/v2/pet 
+ path_url=/v2/pet 
+ headers={'User-Agent': 'python-requests/2.25.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '153'} 
+ body=b'{"id": 1059, "category": {"id": 0, "name": "string"}, "name": "MyPet1059", "photoUrls": [], "tags": [{"id": 0, "name": "string"}], "status": "available"}' 
+ </msg>
+<msg timestamp="20230725 17:45:06.369" level="INFO">POST Response : url=https://petstore.swagger.io/v2/pet 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 25 Jul 2023 12:15:08 GMT', 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Server': 'Jetty(9.2.9.v20150224)'} 
+ body={"id":1059,"category":{"id":0,"name":"string"},"name":"MyPet1059","photoUrls":[],"tags":[{"id":0,"name":"string"}],"status":"available"} 
+ </msg>
+<msg timestamp="20230725 17:45:06.369" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:06.369"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:06.369" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:06.369" endtime="20230725 17:45:06.369"/>
+</kw>
+<msg timestamp="20230725 17:45:06.369" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:05.362" endtime="20230725 17:45:06.369"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${json_resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230725 17:45:06.385" level="INFO">${json_resp} = {'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'MyPet1059', 'photoUrls': [], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:06.369" endtime="20230725 17:45:06.385"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Post Response For Create Pet:${json_resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:06.385" level="INFO">Post Response For Create Pet:{'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'MyPet1059', 'photoUrls': [], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<msg timestamp="20230725 17:45:06.385" level="INFO">${petId} = 1059</msg>
+<status status="PASS" starttime="20230725 17:45:05.346" endtime="20230725 17:45:06.385"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${petId}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20230725 17:45:06.385" level="INFO">${petId} = 1059</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<tag>Assertion</tag>
+<tag>Regression</tag>
+<tag>Sanity</tag>
+<tag>SRE</tag>
+<status status="PASS" starttime="20230725 17:45:05.346" endtime="20230725 17:45:06.385"/>
+</test>
+<test id="s1-t2" name="Create Pet With Same Id And Different Name &amp; Validate Response" line="18">
+<kw name="Generate Random Number" library="CommonKeywords">
+<var>${randomNumber}</var>
+<kw name="Evaluate" library="BuiltIn">
+<var>${randomNumber}</var>
+<arg>random.sample(range(0, 100000), 1)</arg>
+<arg>random</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20230725 17:45:06.385" level="INFO">${randomNumber} = [97268]</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${randomNumber}</var>
+<arg>${randomNumber[0]}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230725 17:45:06.385" level="INFO">${randomNumber} = 97268</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<msg timestamp="20230725 17:45:06.385" level="INFO">${randomNumber} = 97268</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<kw name="Catenate" library="BuiltIn">
+<var>${randomPetName}</var>
+<arg>${petName}${randomNumber}</arg>
+<doc>Catenates the given items together and returns the resulted string.</doc>
+<msg timestamp="20230725 17:45:06.385" level="INFO">${randomPetName} = MyPet97268</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<kw name="Create Pet And Return Id" library="Pets">
+<var>${petId}</var>
+<arg>${petId}</arg>
+<arg>${randomPetName}</arg>
+<kw name="Get File Contents For Create Pet Request" library="Pets">
+<var>${requestBody}</var>
+<arg>${createPetFile}</arg>
+<arg>${petId}</arg>
+<arg>${petName}</arg>
+<kw name="Get File" library="OperatingSystem">
+<var>${requestBody}</var>
+<arg>${createPetFile}</arg>
+<doc>Returns the contents of a specified file.</doc>
+<msg timestamp="20230725 17:45:06.385" level="INFO" html="true">Getting file '&lt;a href="file://C:\Automation Branches\Robo_API\mindtickle-robot\automation-framework\API\Input\CreatePet.json"&gt;C:\Automation Branches\Robo_API\mindtickle-robot\automation-framework\API\Input\CreatePet.json&lt;/a&gt;'.</msg>
+<msg timestamp="20230725 17:45:06.385" level="INFO">${requestBody} = {
+  "id": 0,
+  "category": {
+    "id": 0,
+    "name": "string"
+  },
+  "name": "doggie",
+  "photoUrls": [
+  ],
+  "tags": [
+    {
+      "id": 0,
+      "name": "string"
+    }
+  ],
+  "status": "available"...</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${requestBody}</var>
+<arg>json.loads('''${requestBody}''')</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20230725 17:45:06.385" level="INFO">${requestBody} = {'id': 0, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': [], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody}</arg>
+<arg>id=${petId}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody}</arg>
+<arg>name=${petName}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<msg timestamp="20230725 17:45:06.385" level="INFO">${requestBody} = {'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'MyPet97268', 'photoUrls': [], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Post Request Body To Create Pet:${requestBody}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:06.385" level="INFO">Post Request Body To Create Pet:{'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'MyPet97268', 'photoUrls': [], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<kw name="Create Pet Response" library="Pets">
+<var>${resp}</var>
+<arg>${requestBody}</arg>
+<arg>${expected_status_code}</arg>
+<kw name="Get Hostname" library="Data">
+<var>${host_name}</var>
+<kw name="Get Config Pod Values" library="Data">
+<kw name="Read Data From Excel File" library="CommonUtilities">
+<var>${data}</var>
+<arg>${path}</arg>
+<arg>${environment}</arg>
+<msg timestamp="20230725 17:45:06.385" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${data}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20230725 17:45:06.385" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.385"/>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${data}</arg>
+<arg>hostname</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20230725 17:45:06.400" level="INFO">${value} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:06.400" endtime="20230725 17:45:06.400"/>
+</kw>
+<msg timestamp="20230725 17:45:06.400" level="INFO">${host_name} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:06.400"/>
+</kw>
+<kw name="Get Header Dictionary" library="CommonKeywords">
+<var>${headers}</var>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230725 17:45:06.400" level="INFO">${headers} = {}</msg>
+<status status="PASS" starttime="20230725 17:45:06.400" endtime="20230725 17:45:06.400"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${headers}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:06.400" endtime="20230725 17:45:06.400"/>
+</kw>
+<msg timestamp="20230725 17:45:06.400" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20230725 17:45:06.400" endtime="20230725 17:45:06.400"/>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>alias=MTapi</arg>
+<arg>url=${host_name}</arg>
+<arg>headers=${headers}</arg>
+<arg>disable_warnings=1</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20230725 17:45:06.400" level="INFO">Creating Session using : alias=MTapi, url=https://petstore.swagger.io, headers={'Content-Type': 'application/json'},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20230725 17:45:06.400" endtime="20230725 17:45:06.400"/>
+</kw>
+<kw name="Post On Session" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>MTapi</arg>
+<arg>${create_pet_url}</arg>
+<arg>json=${requestBody}</arg>
+<arg>expected_status=${expected_status_code}</arg>
+<arg>msg="Status code is not equal to 200 (SUCCESS)"</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<msg timestamp="20230725 17:45:07.248" level="INFO">POST Request : url=https://petstore.swagger.io/v2/pet 
+ path_url=/v2/pet 
+ headers={'User-Agent': 'python-requests/2.25.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '154'} 
+ body=b'{"id": 1059, "category": {"id": 0, "name": "string"}, "name": "MyPet97268", "photoUrls": [], "tags": [{"id": 0, "name": "string"}], "status": "available"}' 
+ </msg>
+<msg timestamp="20230725 17:45:07.248" level="INFO">POST Response : url=https://petstore.swagger.io/v2/pet 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 25 Jul 2023 12:15:08 GMT', 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Server': 'Jetty(9.2.9.v20150224)'} 
+ body={"id":1059,"category":{"id":0,"name":"string"},"name":"MyPet97268","photoUrls":[],"tags":[{"id":0,"name":"string"}],"status":"available"} 
+ </msg>
+<msg timestamp="20230725 17:45:07.248" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:06.400" endtime="20230725 17:45:07.248"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:07.248" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:07.248" endtime="20230725 17:45:07.248"/>
+</kw>
+<msg timestamp="20230725 17:45:07.248" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:07.248"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${json_resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230725 17:45:07.248" level="INFO">${json_resp} = {'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'MyPet97268', 'photoUrls': [], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:07.248" endtime="20230725 17:45:07.248"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Post Response For Create Pet:${json_resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:07.248" level="INFO">Post Response For Create Pet:{'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'MyPet97268', 'photoUrls': [], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:07.248" endtime="20230725 17:45:07.248"/>
+</kw>
+<msg timestamp="20230725 17:45:07.248" level="INFO">${petId} = 1059</msg>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:07.248"/>
+</kw>
+<kw name="Get Pet Details By Id/Status And Verify Fields In Response" library="Pets">
+<arg>petId=${petId}</arg>
+<arg>expectedName=${randomPetName}</arg>
+<kw name="Get Pet By Id/Status Response" library="Pets">
+<var>${resp}</var>
+<arg>${petId}</arg>
+<arg>${petStatus}</arg>
+<kw name="Get Hostname" library="Data">
+<var>${host_name}</var>
+<kw name="Get Config Pod Values" library="Data">
+<kw name="Read Data From Excel File" library="CommonUtilities">
+<var>${data}</var>
+<arg>${path}</arg>
+<arg>${environment}</arg>
+<msg timestamp="20230725 17:45:07.257" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${data}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20230725 17:45:07.257" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${data}</arg>
+<arg>hostname</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20230725 17:45:07.257" level="INFO">${value} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</kw>
+<msg timestamp="20230725 17:45:07.257" level="INFO">${host_name} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</kw>
+<kw name="Get Header Dictionary" library="CommonKeywords">
+<var>${headers}</var>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230725 17:45:07.257" level="INFO">${headers} = {}</msg>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${headers}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</kw>
+<msg timestamp="20230725 17:45:07.257" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</kw>
+<if>
+<branch type="IF" condition="'${petId}' != 'None'">
+<kw name="Format String" library="String">
+<var>${url}</var>
+<arg>${get_pet_url}</arg>
+<arg>${petId}</arg>
+<doc>Formats a ``template`` using the given ``positional`` and ``named`` arguments.</doc>
+<msg timestamp="20230725 17:45:07.257" level="INFO">${url} = /v2/pet/1059</msg>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</branch>
+<branch type="ELSE">
+<kw name="Format String" library="String">
+<var>${url}</var>
+<arg>${get_pet_url}</arg>
+<arg>${petStatus}</arg>
+<doc>Formats a ``template`` using the given ``positional`` and ``named`` arguments.</doc>
+<status status="NOT RUN" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</kw>
+<status status="NOT RUN" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</branch>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</if>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>alias=MTapi</arg>
+<arg>url=${host_name}</arg>
+<arg>headers=${headers}</arg>
+<arg>disable_warnings=1</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20230725 17:45:07.257" level="INFO">Creating Session using : alias=MTapi, url=https://petstore.swagger.io, headers={'Content-Type': 'application/json'},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:07.257"/>
+</kw>
+<kw name="Get On Session" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>MTapi</arg>
+<arg>${url}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20230725 17:45:08.136" level="INFO">GET Request : url=https://petstore.swagger.io/v2/pet/1059 
+ path_url=/v2/pet/1059 
+ headers={'User-Agent': 'python-requests/2.25.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg timestamp="20230725 17:45:08.136" level="INFO">GET Response : url=https://petstore.swagger.io/v2/pet/1059 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 25 Jul 2023 12:15:09 GMT', 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Server': 'Jetty(9.2.9.v20150224)'} 
+ body={"id":1059,"category":{"id":0,"name":"string"},"name":"MyPet97268","photoUrls":[],"tags":[{"id":0,"name":"string"}],"status":"available"} 
+ </msg>
+<msg timestamp="20230725 17:45:08.136" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:07.257" endtime="20230725 17:45:08.136"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:08.136" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<msg timestamp="20230725 17:45:08.136" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:07.248" endtime="20230725 17:45:08.136"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${json_resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230725 17:45:08.136" level="INFO">${json_resp} = {'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'MyPet97268', 'photoUrls': [], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Response From Get Pet Details API:${json_resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:08.136" level="INFO">Response From Get Pet Details API:{'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'MyPet97268', 'photoUrls': [], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<if>
+<branch type="IF" condition="'${expectedName}' != 'None'">
+<kw name="Log" library="BuiltIn">
+<arg>${expectedName}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:08.136" level="INFO">MyPet97268</msg>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${expectedName}</arg>
+<arg>${json_resp['name']}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log" library="BuiltIn">
+<arg>${expectedStatus}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${expectedStatus}</arg>
+<arg>${json_resp['status']}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="NOT RUN" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<status status="NOT RUN" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</branch>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</if>
+<status status="PASS" starttime="20230725 17:45:07.248" endtime="20230725 17:45:08.136"/>
+</kw>
+<tag>Assertion</tag>
+<tag>Regression</tag>
+<tag>Sanity</tag>
+<tag>SRE</tag>
+<status status="PASS" starttime="20230725 17:45:06.385" endtime="20230725 17:45:08.136"/>
+</test>
+<test id="s1-t3" name="Update Pet Status And Verify Response" line="27">
+<kw name="Update Pet Details And Validate Response" library="Pets">
+<arg>${petId}</arg>
+<arg>${statusField}</arg>
+<arg>${statusSold}</arg>
+<kw name="Get File Contents For Update Pet Detail Request" library="Pets">
+<var>${requestBody}</var>
+<arg>${updatePetFile}</arg>
+<arg>${petId}</arg>
+<arg>${fieldToUpdate}</arg>
+<arg>${updatedValue}</arg>
+<kw name="Get File" library="OperatingSystem">
+<var>${requestBody}</var>
+<arg>${updatePetFile}</arg>
+<doc>Returns the contents of a specified file.</doc>
+<msg timestamp="20230725 17:45:08.136" level="INFO" html="true">Getting file '&lt;a href="file://C:\Automation Branches\Robo_API\mindtickle-robot\automation-framework\API\Input\UpdatePet.json"&gt;C:\Automation Branches\Robo_API\mindtickle-robot\automation-framework\API\Input\UpdatePet.json&lt;/a&gt;'.</msg>
+<msg timestamp="20230725 17:45:08.136" level="INFO">${requestBody} = {
+  "id": 0,
+  "category": {
+    "id": 0,
+    "name": "string"
+  },
+  "name": "doggie",
+  "photoUrls": [
+    "string"
+  ],
+  "tags": [
+    {
+      "id": 0,
+      "name": "string"
+    }
+  ],
+  "status"...</msg>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${requestBody}</var>
+<arg>json.loads('''${requestBody}''')</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20230725 17:45:08.136" level="INFO">${requestBody} = {'id': 0, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody}</arg>
+<arg>id=${petId}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<if>
+<branch type="IF" condition="'${field_to_update}'=='${statusField}'">
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody}</arg>
+<arg>${field_to_update}=${updated_value}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</branch>
+<branch type="ELSE IF" condition="'${field_to_update}'=='${photoUrlsField}'">
+<kw name="Append To List" library="Collections">
+<arg>${requestBody['photoUrls']}</arg>
+<arg>${updated_value}</arg>
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<status status="NOT RUN" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<status status="NOT RUN" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</branch>
+<branch type="ELSE IF" condition="'${field_to_update}'=='${categoryField}'">
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody['category']}</arg>
+<arg>name=${updated_value}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="NOT RUN" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<status status="NOT RUN" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</branch>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</if>
+<msg timestamp="20230725 17:45:08.136" level="INFO">${requestBody} = {'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'sold'}</msg>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Post Request Body To Update Pet:${requestBody}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:08.136" level="INFO">Post Request Body To Update Pet:{'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'sold'}</msg>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.136"/>
+</kw>
+<kw name="Update Pet Response" library="Pets">
+<var>${resp}</var>
+<arg>${requestBody}</arg>
+<arg>${expected_status_code}</arg>
+<kw name="Get Hostname" library="Data">
+<var>${host_name}</var>
+<kw name="Get Config Pod Values" library="Data">
+<kw name="Read Data From Excel File" library="CommonUtilities">
+<var>${data}</var>
+<arg>${path}</arg>
+<arg>${environment}</arg>
+<msg timestamp="20230725 17:45:08.150" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.150"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${data}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20230725 17:45:08.150" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:08.150" endtime="20230725 17:45:08.150"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.150"/>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${data}</arg>
+<arg>hostname</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20230725 17:45:08.150" level="INFO">${value} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:08.150" endtime="20230725 17:45:08.150"/>
+</kw>
+<msg timestamp="20230725 17:45:08.150" level="INFO">${host_name} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:08.150"/>
+</kw>
+<kw name="Get Header Dictionary" library="CommonKeywords">
+<var>${headers}</var>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230725 17:45:08.150" level="INFO">${headers} = {}</msg>
+<status status="PASS" starttime="20230725 17:45:08.150" endtime="20230725 17:45:08.150"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${headers}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:08.150" endtime="20230725 17:45:08.152"/>
+</kw>
+<msg timestamp="20230725 17:45:08.152" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20230725 17:45:08.150" endtime="20230725 17:45:08.152"/>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>alias=MTapi</arg>
+<arg>url=${host_name}</arg>
+<arg>headers=${headers}</arg>
+<arg>disable_warnings=1</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20230725 17:45:08.152" level="INFO">Creating Session using : alias=MTapi, url=https://petstore.swagger.io, headers={'Content-Type': 'application/json'},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20230725 17:45:08.152" endtime="20230725 17:45:08.152"/>
+</kw>
+<kw name="Put On Session" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>MTapi</arg>
+<arg>${update_pet_url}</arg>
+<arg>json=${requestBody}</arg>
+<arg>expected_status=${expected_status_code}</arg>
+<arg>msg="Status code is not equal to 200 (SUCCESS)"</arg>
+<doc>Sends a PUT request on a previously created HTTP Session.</doc>
+<msg timestamp="20230725 17:45:09.004" level="INFO">PUT Request : url=https://petstore.swagger.io/v2/pet 
+ path_url=/v2/pet 
+ headers={'User-Agent': 'python-requests/2.25.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '153'} 
+ body=b'{"id": 1059, "category": {"id": 0, "name": "string"}, "name": "doggie", "photoUrls": ["string"], "tags": [{"id": 0, "name": "string"}], "status": "sold"}' 
+ </msg>
+<msg timestamp="20230725 17:45:09.004" level="INFO">PUT Response : url=https://petstore.swagger.io/v2/pet 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 25 Jul 2023 12:15:10 GMT', 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Server': 'Jetty(9.2.9.v20150224)'} 
+ body={"id":1059,"category":{"id":0,"name":"string"},"name":"doggie","photoUrls":["string"],"tags":[{"id":0,"name":"string"}],"status":"sold"} 
+ </msg>
+<msg timestamp="20230725 17:45:09.004" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:08.152" endtime="20230725 17:45:09.004"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:09.004" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:09.004" endtime="20230725 17:45:09.004"/>
+</kw>
+<msg timestamp="20230725 17:45:09.004" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:09.004"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${json_resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230725 17:45:09.020" level="INFO">${json_resp} = {'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'sold'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.004" endtime="20230725 17:45:09.020"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Post Response For Update Pet:${json_resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:09.020" level="INFO">Post Response For Update Pet:{'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'sold'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:09.020"/>
+</kw>
+<tag>Assertion</tag>
+<tag>Regression</tag>
+<tag>Sanity</tag>
+<tag>SRE</tag>
+<status status="PASS" starttime="20230725 17:45:08.136" endtime="20230725 17:45:09.020"/>
+</test>
+<test id="s1-t4" name="Update Pet Category And Verify Response" line="31">
+<kw name="Update Pet Details And Validate Response" library="Pets">
+<arg>${petId}</arg>
+<arg>${categoryField}</arg>
+<arg>${categoryCat}</arg>
+<kw name="Get File Contents For Update Pet Detail Request" library="Pets">
+<var>${requestBody}</var>
+<arg>${updatePetFile}</arg>
+<arg>${petId}</arg>
+<arg>${fieldToUpdate}</arg>
+<arg>${updatedValue}</arg>
+<kw name="Get File" library="OperatingSystem">
+<var>${requestBody}</var>
+<arg>${updatePetFile}</arg>
+<doc>Returns the contents of a specified file.</doc>
+<msg timestamp="20230725 17:45:09.020" level="INFO" html="true">Getting file '&lt;a href="file://C:\Automation Branches\Robo_API\mindtickle-robot\automation-framework\API\Input\UpdatePet.json"&gt;C:\Automation Branches\Robo_API\mindtickle-robot\automation-framework\API\Input\UpdatePet.json&lt;/a&gt;'.</msg>
+<msg timestamp="20230725 17:45:09.020" level="INFO">${requestBody} = {
+  "id": 0,
+  "category": {
+    "id": 0,
+    "name": "string"
+  },
+  "name": "doggie",
+  "photoUrls": [
+    "string"
+  ],
+  "tags": [
+    {
+      "id": 0,
+      "name": "string"
+    }
+  ],
+  "status"...</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${requestBody}</var>
+<arg>json.loads('''${requestBody}''')</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20230725 17:45:09.020" level="INFO">${requestBody} = {'id': 0, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody}</arg>
+<arg>id=${petId}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<if>
+<branch type="IF" condition="'${field_to_update}'=='${statusField}'">
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody}</arg>
+<arg>${field_to_update}=${updated_value}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="NOT RUN" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<status status="NOT RUN" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</branch>
+<branch type="ELSE IF" condition="'${field_to_update}'=='${photoUrlsField}'">
+<kw name="Append To List" library="Collections">
+<arg>${requestBody['photoUrls']}</arg>
+<arg>${updated_value}</arg>
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<status status="NOT RUN" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<status status="NOT RUN" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</branch>
+<branch type="ELSE IF" condition="'${field_to_update}'=='${categoryField}'">
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody['category']}</arg>
+<arg>name=${updated_value}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</branch>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</if>
+<msg timestamp="20230725 17:45:09.020" level="INFO">${requestBody} = {'id': 1059, 'category': {'id': 0, 'name': 'Cat'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Post Request Body To Update Pet:${requestBody}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:09.020" level="INFO">Post Request Body To Update Pet:{'id': 1059, 'category': {'id': 0, 'name': 'Cat'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<kw name="Update Pet Response" library="Pets">
+<var>${resp}</var>
+<arg>${requestBody}</arg>
+<arg>${expected_status_code}</arg>
+<kw name="Get Hostname" library="Data">
+<var>${host_name}</var>
+<kw name="Get Config Pod Values" library="Data">
+<kw name="Read Data From Excel File" library="CommonUtilities">
+<var>${data}</var>
+<arg>${path}</arg>
+<arg>${environment}</arg>
+<msg timestamp="20230725 17:45:09.020" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${data}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20230725 17:45:09.020" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${data}</arg>
+<arg>hostname</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20230725 17:45:09.020" level="INFO">${value} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<msg timestamp="20230725 17:45:09.020" level="INFO">${host_name} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<kw name="Get Header Dictionary" library="CommonKeywords">
+<var>${headers}</var>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230725 17:45:09.020" level="INFO">${headers} = {}</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${headers}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<msg timestamp="20230725 17:45:09.020" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>alias=MTapi</arg>
+<arg>url=${host_name}</arg>
+<arg>headers=${headers}</arg>
+<arg>disable_warnings=1</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20230725 17:45:09.020" level="INFO">Creating Session using : alias=MTapi, url=https://petstore.swagger.io, headers={'Content-Type': 'application/json'},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.020"/>
+</kw>
+<kw name="Put On Session" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>MTapi</arg>
+<arg>${update_pet_url}</arg>
+<arg>json=${requestBody}</arg>
+<arg>expected_status=${expected_status_code}</arg>
+<arg>msg="Status code is not equal to 200 (SUCCESS)"</arg>
+<doc>Sends a PUT request on a previously created HTTP Session.</doc>
+<msg timestamp="20230725 17:45:09.919" level="INFO">PUT Request : url=https://petstore.swagger.io/v2/pet 
+ path_url=/v2/pet 
+ headers={'User-Agent': 'python-requests/2.25.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '155'} 
+ body=b'{"id": 1059, "category": {"id": 0, "name": "Cat"}, "name": "doggie", "photoUrls": ["string"], "tags": [{"id": 0, "name": "string"}], "status": "available"}' 
+ </msg>
+<msg timestamp="20230725 17:45:09.919" level="INFO">PUT Response : url=https://petstore.swagger.io/v2/pet 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 25 Jul 2023 12:15:11 GMT', 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Server': 'Jetty(9.2.9.v20150224)'} 
+ body={"id":1059,"category":{"id":0,"name":"Cat"},"name":"doggie","photoUrls":["string"],"tags":[{"id":0,"name":"string"}],"status":"available"} 
+ </msg>
+<msg timestamp="20230725 17:45:09.919" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.919"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:09.919" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:09.919" endtime="20230725 17:45:09.919"/>
+</kw>
+<msg timestamp="20230725 17:45:09.919" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.935"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${json_resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230725 17:45:09.935" level="INFO">${json_resp} = {'id': 1059, 'category': {'id': 0, 'name': 'Cat'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Post Response For Update Pet:${json_resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:09.935" level="INFO">Post Response For Update Pet:{'id': 1059, 'category': {'id': 0, 'name': 'Cat'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.935"/>
+</kw>
+<tag>Assertion</tag>
+<tag>Regression</tag>
+<tag>Sanity</tag>
+<tag>SRE</tag>
+<status status="PASS" starttime="20230725 17:45:09.020" endtime="20230725 17:45:09.935"/>
+</test>
+<test id="s1-t5" name="Update Pet Photo URL And Verify Response" line="35">
+<kw name="Update Pet Details And Validate Response" library="Pets">
+<arg>${petId}</arg>
+<arg>${photoUrlsField}</arg>
+<arg>${photoURL}</arg>
+<kw name="Get File Contents For Update Pet Detail Request" library="Pets">
+<var>${requestBody}</var>
+<arg>${updatePetFile}</arg>
+<arg>${petId}</arg>
+<arg>${fieldToUpdate}</arg>
+<arg>${updatedValue}</arg>
+<kw name="Get File" library="OperatingSystem">
+<var>${requestBody}</var>
+<arg>${updatePetFile}</arg>
+<doc>Returns the contents of a specified file.</doc>
+<msg timestamp="20230725 17:45:09.935" level="INFO" html="true">Getting file '&lt;a href="file://C:\Automation Branches\Robo_API\mindtickle-robot\automation-framework\API\Input\UpdatePet.json"&gt;C:\Automation Branches\Robo_API\mindtickle-robot\automation-framework\API\Input\UpdatePet.json&lt;/a&gt;'.</msg>
+<msg timestamp="20230725 17:45:09.935" level="INFO">${requestBody} = {
+  "id": 0,
+  "category": {
+    "id": 0,
+    "name": "string"
+  },
+  "name": "doggie",
+  "photoUrls": [
+    "string"
+  ],
+  "tags": [
+    {
+      "id": 0,
+      "name": "string"
+    }
+  ],
+  "status"...</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<var>${requestBody}</var>
+<arg>json.loads('''${requestBody}''')</arg>
+<arg>json</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20230725 17:45:09.935" level="INFO">${requestBody} = {'id': 0, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody}</arg>
+<arg>id=${petId}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<if>
+<branch type="IF" condition="'${field_to_update}'=='${statusField}'">
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody}</arg>
+<arg>${field_to_update}=${updated_value}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="NOT RUN" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<status status="NOT RUN" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</branch>
+<branch type="ELSE IF" condition="'${field_to_update}'=='${photoUrlsField}'">
+<kw name="Append To List" library="Collections">
+<arg>${requestBody['photoUrls']}</arg>
+<arg>${updated_value}</arg>
+<doc>Adds ``values`` to the end of ``list``.</doc>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</branch>
+<branch type="ELSE IF" condition="'${field_to_update}'=='${categoryField}'">
+<kw name="Set To Dictionary" library="Collections">
+<arg>${requestBody['category']}</arg>
+<arg>name=${updated_value}</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="NOT RUN" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<status status="NOT RUN" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</branch>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</if>
+<msg timestamp="20230725 17:45:09.935" level="INFO">${requestBody} = {'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string', 'http://sampleurl.com'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Post Request Body To Update Pet:${requestBody}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:09.935" level="INFO">Post Request Body To Update Pet:{'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string', 'http://sampleurl.com'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<kw name="Update Pet Response" library="Pets">
+<var>${resp}</var>
+<arg>${requestBody}</arg>
+<arg>${expected_status_code}</arg>
+<kw name="Get Hostname" library="Data">
+<var>${host_name}</var>
+<kw name="Get Config Pod Values" library="Data">
+<kw name="Read Data From Excel File" library="CommonUtilities">
+<var>${data}</var>
+<arg>${path}</arg>
+<arg>${environment}</arg>
+<msg timestamp="20230725 17:45:09.935" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${data}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20230725 17:45:09.935" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${data}</arg>
+<arg>hostname</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20230725 17:45:09.935" level="INFO">${value} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<msg timestamp="20230725 17:45:09.935" level="INFO">${host_name} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<kw name="Get Header Dictionary" library="CommonKeywords">
+<var>${headers}</var>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230725 17:45:09.935" level="INFO">${headers} = {}</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${headers}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<msg timestamp="20230725 17:45:09.935" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.935"/>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>alias=MTapi</arg>
+<arg>url=${host_name}</arg>
+<arg>headers=${headers}</arg>
+<arg>disable_warnings=1</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20230725 17:45:09.935" level="INFO">Creating Session using : alias=MTapi, url=https://petstore.swagger.io, headers={'Content-Type': 'application/json'},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:09.950"/>
+</kw>
+<kw name="Put On Session" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>MTapi</arg>
+<arg>${update_pet_url}</arg>
+<arg>json=${requestBody}</arg>
+<arg>expected_status=${expected_status_code}</arg>
+<arg>msg="Status code is not equal to 200 (SUCCESS)"</arg>
+<doc>Sends a PUT request on a previously created HTTP Session.</doc>
+<msg timestamp="20230725 17:45:10.806" level="INFO">PUT Request : url=https://petstore.swagger.io/v2/pet 
+ path_url=/v2/pet 
+ headers={'User-Agent': 'python-requests/2.25.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '182'} 
+ body=b'{"id": 1059, "category": {"id": 0, "name": "string"}, "name": "doggie", "photoUrls": ["string", "http://sampleurl.com"], "tags": [{"id": 0, "name": "string"}], "status": "available"}' 
+ </msg>
+<msg timestamp="20230725 17:45:10.806" level="INFO">PUT Response : url=https://petstore.swagger.io/v2/pet 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 25 Jul 2023 12:15:12 GMT', 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Server': 'Jetty(9.2.9.v20150224)'} 
+ body={"id":1059,"category":{"id":0,"name":"string"},"name":"doggie","photoUrls":["string","http://sampleurl.com"],"tags":[{"id":0,"name":"string"}],"status":"available"} 
+ </msg>
+<msg timestamp="20230725 17:45:10.806" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:09.950" endtime="20230725 17:45:10.806"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:10.806" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<msg timestamp="20230725 17:45:10.806" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:10.806"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${json_resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230725 17:45:10.806" level="INFO">${json_resp} = {'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string', 'http://sampleurl.com'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Post Response For Update Pet:${json_resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:10.806" level="INFO">Post Response For Update Pet:{'id': 1059, 'category': {'id': 0, 'name': 'string'}, 'name': 'doggie', 'photoUrls': ['string', 'http://sampleurl.com'], 'tags': [{'id': 0, 'name': 'string'}], 'status': 'available'}</msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:10.806"/>
+</kw>
+<tag>Assertion</tag>
+<tag>Regression</tag>
+<tag>Sanity</tag>
+<tag>SRE</tag>
+<status status="PASS" starttime="20230725 17:45:09.935" endtime="20230725 17:45:10.806"/>
+</test>
+<test id="s1-t6" name="Get Pet Details By Updated Status And Verify Response" line="39">
+<kw name="Get Pet Details By Status And Verify Fields In Response" library="Pets">
+<arg>${statusSold}</arg>
+<kw name="Get Pet By Status Response" library="Pets">
+<var>${resp}</var>
+<arg>${petStatus}</arg>
+<arg>${expected_status_code}</arg>
+<kw name="Get Hostname" library="Data">
+<var>${host_name}</var>
+<kw name="Get Config Pod Values" library="Data">
+<kw name="Read Data From Excel File" library="CommonUtilities">
+<var>${data}</var>
+<arg>${path}</arg>
+<arg>${environment}</arg>
+<msg timestamp="20230725 17:45:10.806" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<kw name="Set Global Variable" library="BuiltIn">
+<arg>${data}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<msg timestamp="20230725 17:45:10.806" level="INFO">${data} = {'hostname': 'https://petstore.swagger.io'}</msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<var>${value}</var>
+<arg>${data}</arg>
+<arg>hostname</arg>
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<msg timestamp="20230725 17:45:10.806" level="INFO">${value} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<msg timestamp="20230725 17:45:10.806" level="INFO">${host_name} = https://petstore.swagger.io</msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<kw name="Get Header Dictionary" library="CommonKeywords">
+<var>${headers}</var>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230725 17:45:10.806" level="INFO">${headers} = {}</msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<arg>${headers}</arg>
+<arg>Content-Type=application/json</arg>
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<msg timestamp="20230725 17:45:10.806" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<kw name="Format String" library="String">
+<var>${url}</var>
+<arg>${get_pet_by_status_url}</arg>
+<arg>${petStatus}</arg>
+<doc>Formats a ``template`` using the given ``positional`` and ``named`` arguments.</doc>
+<msg timestamp="20230725 17:45:10.806" level="INFO">${url} = /v2/pet/findByStatus?status=sold</msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>alias=MTapi</arg>
+<arg>url=${host_name}</arg>
+<arg>headers=${headers}</arg>
+<arg>disable_warnings=1</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20230725 17:45:10.806" level="INFO">Creating Session using : alias=MTapi, url=https://petstore.swagger.io, headers={'Content-Type': 'application/json'},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:10.806"/>
+</kw>
+<kw name="Get On Session" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>MTapi</arg>
+<arg>${url}</arg>
+<arg>expected_status=${expected_status_code}</arg>
+<arg>msg="Status code is not equal to 200 (SUCCESS)"</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20230725 17:45:11.686" level="INFO">GET Request : url=https://petstore.swagger.io/v2/pet/findByStatus?status=sold 
+ path_url=/v2/pet/findByStatus?status=sold 
+ headers={'User-Agent': 'python-requests/2.25.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json'} 
+ body=None 
+ </msg>
+<msg timestamp="20230725 17:45:11.686" level="INFO">GET Response : url=https://petstore.swagger.io/v2/pet/findByStatus?status=sold 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 25 Jul 2023 12:15:13 GMT', 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT', 'Access-Control-Allow-Headers': 'Content-Type, api_key, Authorization', 'Server': 'Jetty(9.2.9.v20150224)'} 
+ body=[{"id":15682678,"category":{"id":91414780,"name":"nulla sit et aliquip"},"name":"doggie","photoUrls":["esse proident","Ut reprehenderit anim laborum"],"tags":[{"id":-21830919,"name":"amet culpa anim"},{"id":18315880,"name":"nostrud Excepteur proident"}],"status":"sold"},{"id":68,"category":{"id":68,"name":"bagworm"},"name":"bagworm","photoUrls":["6NV0"],"tags":[{"id":68,"name":"bagworm"}],"status":"sold"},{"id":9223372036854290756,"category":{"id":0,"name":"dog"},"name":"Jesie","photoUrls":["string"],"tags":[{"id":0,"name":"string"}],"status":"sold"},{"id":1877893278,"category":{"id":0,"name":"cats"},"name":"cat4","photoUrls":["string"],"tags":[{"id":0,"name":"tom1"}],"status":"sold"},{"id":1877893279,"category":{"id":0,"name":"cats"},"name":"cat5","photoUrls":["string"],"tags":[{"id":0,"name":"tom1"}],"status":"sold"},{"id":1812,"name":"2U6u","photoUrls":["https://www.archanaskitchen.com/burnt-garlic-mushroom-fried-rice-recipe"],"tags":[],"status":"sold"},{"id":87613,"photoUrls":[],"tags":[],"status":"sold"},{"id":87182,"photoUrls":[],"tags":[],"status":"sold"},{"id":73173,"photoUrls":[],"tags":[],"status":"sold"},{"id":18787,"photoUrls":[],"tags":[],"status":"sold"},{"id":81642,"photoUrls":[],"tags":[],"status":"sold"},{"id":15818,"photoUrls":[],"tags":[],"status":"sold"},{"id":70755,"photoUrls":[],"tags":[],"status":"sold"},{"id":14703,"photoUrls":[],"tags":[],"status":"sold"},{"id":63442,"photoUrls":[],"tags":[],"status":"sold"},{"id":41181,"photoUrls":[],"tags":[],"status":"sold"},{"id":33861,"photoUrls":[],"tags":[],"status":"sold"},{"id":21675,"photoUrls":[],"tags":[],"status":"sold"},{"id":68350,"photoUrls":[],"tags":[],"status":"sold"},{"id":22818,"photoUrls":[],"tags":[],"status":"sold"},{"id":17065,"photoUrls":[],"tags":[],"status":"sold"},{"id":55735,"photoUrls":[],"tags":[],"status":"sold"},{"id":12867,"photoUrls":[],"tags":[],"status":"sold"},{"id":18768,"photoUrls":[],"tags":[],"status":"sold"},{"id":57201,"photoUrls":[],"tags":[],"status":"sold"},{"id":34448,"photoUrls":[],"tags":[],"status":"sold"},{"id":71653,"photoUrls":[],"tags":[],"status":"sold"}] 
+ </msg>
+<msg timestamp="20230725 17:45:11.686" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:11.686"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20230725 17:45:11.686" level="INFO">&lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:11.686" endtime="20230725 17:45:11.686"/>
+</kw>
+<msg timestamp="20230725 17:45:11.686" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:11.686"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${json_resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230725 17:45:11.686" level="INFO">${json_resp} = [{'id': 15682678, 'category': {'id': 91414780, 'name': 'nulla sit et aliquip'}, 'name': 'doggie', 'photoUrls': ['esse proident', 'Ut reprehenderit anim laborum'], 'tags': [{'id': -21830919, 'name': 'a...</msg>
+<status status="PASS" starttime="20230725 17:45:11.686" endtime="20230725 17:45:11.686"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${petStatus}</arg>
+<arg>${json_resp[0]['status']}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20230725 17:45:11.686" endtime="20230725 17:45:11.686"/>
+</kw>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:11.686"/>
+</kw>
+<tag>Assertion</tag>
+<tag>Regression</tag>
+<tag>Sanity</tag>
+<tag>SRE</tag>
+<status status="PASS" starttime="20230725 17:45:10.806" endtime="20230725 17:45:11.686"/>
+</test>
+<doc>Pets Crud Operation Test Cases</doc>
+<status status="PASS" starttime="20230725 17:45:05.105" endtime="20230725 17:45:11.701"/>
+</suite>
+<statistics>
+<total>
+<stat pass="6" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="6" fail="0" skip="0">Assertion</stat>
+<stat pass="6" fail="0" skip="0">Regression</stat>
+<stat pass="6" fail="0" skip="0">Sanity</stat>
+<stat pass="6" fail="0" skip="0">SRE</stat>
+</tag>
+<suite>
+<stat pass="6" fail="0" skip="0" id="s1" name="PetCrud">PetCrud</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
